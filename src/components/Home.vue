@@ -4,7 +4,7 @@
       <v-btn router to="/meetups" class="ma-2" outlined color="indigo"
         >Explore Meetups</v-btn
       >
-      <v-btn router to="/meetup/new" class="ma-2" outlined color="indigo"
+      <v-btn router to="/meetups/new" class="ma-2" outlined color="indigo"
         >Organize Meetup</v-btn
       >
     </div>

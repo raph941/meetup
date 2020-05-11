@@ -24,7 +24,7 @@
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
-            <v-list-item-content >
+            <v-list-item-content>
               <v-list-item-title v-text="item.text"></v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -42,17 +42,28 @@
 <script>
   export default {
     data: () => ({
-      items: [
-        { icon: 'mdi-home', text: 'Home', link: '/' },
-        { icon: 'mdi-account-multiple', text: 'view meetups', link: '/meetups' },
-        { icon: 'mdi-plus', text: 'Organize Meetup', link: '/meetups/new' },
-        { icon: 'mdi-account', text: 'Profile', link: '/profile' },
-        { icon: 'mdi-account-plus', text: 'Sign up', link: '/signup' },
-        {icon: 'mdi-login', text: 'Sign in', link: '/signin' },
-      ],
       model: 1,
       sideNav: false,
     }),
+    computed: {
+      items () {
+        let Items = [
+          { icon: 'mdi-account-plus', text: 'Sign up', link: '/signup' },
+          { icon: 'mdi-login', text: 'Sign in', link: '/signin' },
+        ]
+        if (this.userIsAuthenticated) {
+          Items = [
+            { icon: 'mdi-account-multiple', text: 'view meetups', link: '/meetups' },
+            { icon: 'mdi-plus', text: 'Organize Meetup', link: '/meetups/new' },
+            { icon: 'mdi-account', text: 'Profile', link: '/profile' },
+          ]
+        }
+        return Items
+      },
+      userIsAuthenticated () {
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      }
+    }
   }
 </script>
 

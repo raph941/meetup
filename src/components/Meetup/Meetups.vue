@@ -14,7 +14,7 @@
               <v-card-title class="headline" v-text="meetup.title"></v-card-title>
 
               <v-card-subtitle v-text="meetup.caption"> </v-card-subtitle>
-              <div class=" ml-4"><v-icon>mdi-timer-outline</v-icon> 1/2/32</div>
+              <div class=" ml-4"><v-icon>mdi-timer-outline</v-icon> {{ meetup.date | date }}</div>
               <div class=" ml-4">
                 <v-icon>mdi-map-marker-outline</v-icon> {{ meetup.location }}
               </div>
