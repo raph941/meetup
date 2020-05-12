@@ -6,11 +6,13 @@ import Vuetify from 'vuetify/lib';
 import { store } from './store/index'
 import DateFilter from './filters/date'
 import * as firebase from 'firebase'
+import AlertCmp from './components/shared/Alert.vue'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
 Vue.filter('date', DateFilter)
+Vue.component('app-alert', AlertCmp)
 
 new Vue({
   router,
@@ -28,6 +30,6 @@ new Vue({
       appId: '1:62369155106:web:96e0771154ca3ac9ada27b',
       measurementId: 'G-NDD85R695P'
     })
+    this.$store.dispatch('loadedMeetups')
   }
-
 }).$mount('#app')

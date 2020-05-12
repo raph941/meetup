@@ -32,33 +32,81 @@ export const store = new Vuex.Store({
             },
         ],
         user: null, 
+        loading: false,
+        error: null,
     },
     mutations: {
+        setLoadedMeetups(state, payload) {
+            state.loadedMeetups = payload
+        },
         createMeetup (state, payload) {
             state.loadedMeetups.push(payload)
         },
         setUser (state, payload) {
             state.user = payload
+        },
+        setLoading (state, payload) {
+            state.loading = payload
+        },
+        setError (state, payload) {
+            state.error = payload
+        },
+        clearError (state) {
+            state.error = null
         }
     },
     actions: {
+        loadedMeetups({commit}) {
+            firebase.data.ref('meetups').once('value')
+                .then((data) => {
+                    const meetups = []
+                    const obj = data.val()
+                    for (let key in obj) {
+                        meetups.push({
+                            id: key,
+                            title: obj[key].title,
+                            description: obj[key].description,
+                            imageUrl: obj[key].imageUrl,
+                            date: obj[key].date,
+                        })
+                    }
+                    commit('setLoadedMeetups', meetups)
+                })
+                .catch(
+                    (error) => {
+                        console.log(error)
+                    }
+                ) 
+        },
         createMeetup ({commit}, payload) {
             const meetup = {
                 title: payload.title,
                 location: payload.location,
                 imageUrl: payload.imageUrl,
                 description: payload.description,
-                date: payload.date,
-                id: 'tfhbfsd'
+                date: payload.date.toISOString()
             }
+            firebase.database().ref('meetups').push(meetup)
+                .then((data) => {
+                    const key = data.key
+                    commit ('createMeetup', {
+                    ...meetup,
+                    id : key
+                    })
+                }).catch((error) => {
+                    console.log(error)
+                })
             //reach out to firebase to store the data
-            commit ('createMeetup', meetup)
+            
         },
         signUserUp ({commit}, payload) {
+            commit('setLoading', true)
+            commit('clearError')
             firebase.auth().createUserWithEmailAndPassword(
                 payload.email, payload.password
             ).then(
                 user => {
+                    commit('setLoading', false)
                     const newUser = {
                         id: user.uid,
                         registeredMeetups: []
@@ -67,15 +115,19 @@ export const store = new Vuex.Store({
                 }
             ).catch(
                 error => {
-                    console.log(error)
+                    commit('setLoading', false)
+                    commit('setError', error)
                 }
             )
         },
         signUserIn ({commit}, payload) {
+            commit('setLoading', true)
+            commit('clearError')
             firebase.auth().signInWithEmailAndPassword(
                 payload.email, payload.password
             ).then(
                 user => {
+                    commit('setLoading', false)
                     const newUser = {
                         id: user.uid,
                         registeredMeetups: []
@@ -84,9 +136,12 @@ export const store = new Vuex.Store({
                 }
             ).catch(
                 error => {
-                    console.log(error)
+                    commit('setError', error)
                 }
             )
+        },
+        clearError ({commit}) {
+            commit('clearError')
         }
     },
     getters: {
@@ -107,6 +162,12 @@ export const store = new Vuex.Store({
         },
         user (state) {
             return state.user
+        },
+        loading (state) {
+            return state.loading
+        },
+        error (state) {
+            return state.error
         }
     },
 })
