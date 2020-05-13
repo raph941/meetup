@@ -1,5 +1,5 @@
-<template>
-    <div>
-        <p>User Profile Page</p>
-    </div>
+<template lang="pug">
+    <v-container>
+    
+    </v-container>
 </template>
