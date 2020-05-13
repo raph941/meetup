@@ -25,8 +25,16 @@
         </v-layout>
         <v-layout row>
             <v-flex class="col-xs-12 col-sm-6 offset-sm3">
-                <v-text-field v-model="imageUrl" name="imageUrl" label="Image Url" id="image-url" required>
-                </v-text-field>
+                <v-file-input
+                    :rules="rules"
+                    accept="image/png, image/jpeg, image/bmp"
+                    placeholder="Upload event image"
+                    prepend-icon="mdi-camera"
+                    label="Image"
+                    id="image"
+                    @change="onFilePicked"
+                    v-model="image"
+                ></v-file-input>
             </v-flex>
         </v-layout>
         <v-layout row v-if="imageUrl">
@@ -105,6 +113,10 @@
                 time: new Date().getHours() + ':' + new Date().getMinutes(),
                 menu2: false,
                 modal2: false,
+                rules: [
+                    value => !value || value.size < 2000000 || 'Image size should be less than 2 MB!',
+                ],
+                image: null,
             }
         },
         computed: {
@@ -132,15 +144,36 @@
                 if (!this.formIsValid) {
                     return
                 }
+                if (!this.image) {
+                    return
+                }
                 const meetupData = {
                     title: this.title,
                     location: this.location,
-                    imageUrl: this.imageUrl,
+                    image: this.image,
                     description: this.description,
                     date: this.submittableDateTime,
                 }
                 this.$store.dispatch('createMeetup', meetupData)
                 this.$router.push('/meetups')
+            },
+            onFilePicked () {
+                const image = this.image
+                const fileReader = new FileReader
+                fileReader.addEventListener('load', () => {
+                    this.imageUrl = fileReader.result
+                })
+                fileReader.readAsDataURL(image)
+
+                // console.log(image)
+                // window.value 
+                // const files = event.target.files
+                // const fileReader = new FileReader()
+                // fileReader.addEventListener('load', () => {
+                //     this.imageUrl = fileReader.result
+                // })
+                // fileReader.readAsDataURL(files)
+                // this.image = fileReader.result
             }
         }
     }

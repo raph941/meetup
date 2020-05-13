@@ -7,6 +7,14 @@
       <v-btn router to="/meetups/new" class="ma-2" outlined color="indigo"
         >Organize Meetup</v-btn
       >
+
+      <v-layout row>
+        <v-flex >
+          <v-progress-circular indeterminate :width="7"
+          :size="40" v-if="loading"></v-progress-circular>
+        </v-flex>
+      </v-layout>
+
     </div>
     <v-carousel
       cycle
@@ -15,6 +23,7 @@
       show-arrows-on-hover
       class="carousel"
       style="cursor: pointer"
+      v-if="!loading"
     >
       <v-carousel-item
         v-for="meetup in meetups"
@@ -34,7 +43,10 @@
 export default {
   computed: {
     meetups () {
-        return this.$store.getters.featuredMeetups
+      return this.$store.getters.featuredMeetups
+    },
+    loading () {
+      return this.$store.getters.loading
     }
   },
   methods: {

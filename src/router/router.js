@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './node_modules/@/components/Home'
-import Meetups from './node_modules/@/components/Meetup/Meetups'
-import CreateMeetup from './node_modules/@/components/Meetup/CreateMeetup'
-import Meetupdetail from './node_modules/@/components/Meetup/Meetupdetail.vue'
-import Profile from './node_modules/@/components/User/Profile'
-import Signin from './node_modules/@/components/User/Signin'
-import Signup from './node_modules/@/components/User/Signup'
+import Home from '@/components/Home'
+import Meetups from '@/components/Meetup/Meetups'
+import CreateMeetup from '@/components/Meetup/CreateMeetup'
+import Meetupdetail from '@/components/Meetup/Meetupdetail.vue'
+import Profile from '@/components/User/Profile'
+import Signin from '@/components/User/Signin'
+import Signup from '@/components/User/Signup'
+import AuthGuard from './auth-guard'
 
 Vue.use(Router)
 
@@ -25,12 +26,14 @@ export default new Router({
     {
       path: '/meetups/new',
       name: 'CreateMeetup',
-      component: CreateMeetup
+      component: CreateMeetup,
+      beforeEnter: AuthGuard
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: Profile
+      component: Profile,
+      beforeEnter: AuthGuard
     },
     {
       path: '/signup',
@@ -45,6 +48,7 @@ export default new Router({
     {
       path: '/meetups/:id',
       name: 'meetupdetail',
+      props: true,
       component: Meetupdetail
     },
   ],
