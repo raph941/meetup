@@ -11,6 +11,10 @@ import EditMeetupDetailDialog from './components/Meetup/Edit/EditMeetupDialog.vu
 import EditMeetupDateDialog from './components/Meetup/Edit/EditMeetupDateDialog.vue'
 import RegisterDialog from './components/Meetup/Registration/RegisterDialog.vue'
 
+import Mymeetups from './components/User/Profile/My_meetups.vue'
+import EditProfile from './components/User/Profile/Edit_profile.vue'
+import About from './components/User/Profile/About.vue'
+
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
@@ -19,6 +23,9 @@ Vue.component('app-alert', AlertCmp)
 Vue.component('app-edit-meetup-detail-dialog', EditMeetupDetailDialog)
 Vue.component('app-edit-meetup-date-dialog', EditMeetupDateDialog)
 Vue.component('app-meetup-register-dialog', RegisterDialog)
+Vue.component('my-meetups', Mymeetups)
+Vue.component('edit-profile', EditProfile)
+Vue.component('about-profile', About)
 
 new Vue({
   router,
