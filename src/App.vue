@@ -2,7 +2,7 @@
   <v-app id="inspire">   
     <v-card>
       <v-toolbar short dark>
-        <v-app-bar-nav-icon class="d-flex d-sm-none"
+        <v-app-bar-nav-icon class="d-flex d-sm-none d-lg-none"
           @click.native="sideNav = !sideNav">
         </v-app-bar-nav-icon>
         <v-toolbar-title>
@@ -13,9 +13,26 @@
           <v-btn icon router :to="item.link"><v-icon v-text="item.icon"></v-icon></v-btn>
           <v-btn v-text="item.text" text router :to="item.link"></v-btn>
         </v-toolbar-items>
-        <v-toolbar-items class="d-none d-sm-flex" v-if="userIsAuthenticated">
-          <v-btn icon @click="onLogout"><v-icon>mdi-logout</v-icon></v-btn>
-          <v-btn text @click="onLogout">Logout</v-btn>
+        <v-toolbar-items class="d-sm-flex" v-if="userIsAuthenticated">
+          
+          <v-avatar size="40" class="avata">
+            <v-menu :offset-y="true" bottom origin="center center" transition="scale-transition">
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on" >
+                  <v-img src="https://cdn.vuetifyjs.com/images/lists/2.jpg"></v-img>
+                </v-btn>
+              </template>
+              <v-list>
+                <v-list-item router to="/profile">
+                  Profile
+                </v-list-item>
+                <v-list-item text @click="onLogout">
+                  Logout
+                </v-list-item>
+              </v-list>
+            </v-menu>  
+          </v-avatar>
+
         </v-toolbar-items>
       </v-toolbar>
     </v-card>
@@ -73,8 +90,6 @@
           Items = [
             { icon: 'mdi-account-multiple', text: 'view meetups', link: '/meetups' },
             { icon: 'mdi-plus', text: 'Organize Meetup', link: '/meetups/new' },
-            { icon: 'mdi-account', text: 'Profile', link: '/profile' },
-          
           ]
         }
         return Items
@@ -86,13 +101,17 @@
     methods: {
       onLogout () {
         this.$store.dispatch('logout')
+        this.$router.push('/')
       }
     }
   }
 </script>
 
 
-<style>
+<style scoped>
+.avata{
+  top:8px;
+}
 
 </style>
 
