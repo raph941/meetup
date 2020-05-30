@@ -3,7 +3,7 @@ module.exports = {
     "vuetify"
   ],
   pwa: {
-    manifestPath: "/public/manifest.json",
+    manifestPath: "public/manifest.json",
     // name: "Meetups",
     // short_name: "Meetups",
     // description: "organize your meetups with a maximum reach at your coonvinience",
