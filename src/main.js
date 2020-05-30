@@ -14,6 +14,7 @@ import RegisterDialog from './components/Meetup/Registration/RegisterDialog.vue'
 import Mymeetups from './components/User/Profile/My_meetups.vue'
 import EditProfile from './components/User/Profile/Edit_profile.vue'
 import About from './components/User/Profile/About.vue'
+import './registerServiceWorker'
 
 Vue.use(Vuetify)
 Vue.config.productionTip = false
